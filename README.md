@@ -1,73 +1,155 @@
-# React + TypeScript + Vite
+# 🧾 Formulario con Validación usando React Hook Form + Zod
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación React que implementa un formulario totalmente validado utilizando **React Hook Form** junto con **Zod** para el manejo de esquemas y validaciones.  
+Permite validar campos como nombre, correo electrónico, contraseña y confirmación de contraseña de manera declarativa, elegante y escalable.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías utilizadas
 
-## React Compiler
+- ⚛️ **React 18+** – Biblioteca principal para la interfaz.
+- 🧩 **React Hook Form** – Manejo de formularios con controladores.
+- ✅ **Zod** – Validaciones de esquema y tipado seguro.
+- 🎨 **CSS** – Estilos básicos personalizados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📂 Estructura del proyecto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+src/
+│
+├── App.tsx
+├── App.css
+│
+├── CustomForm/
+│ ├── CustomForm.tsx
+│ └── components/
+│ └── CustomInput.tsx
+│
+└── models/
+└── form.model.ts
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+yaml
+Copiar código
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧠 Funcionamiento
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### **1. App.tsx**
+Es el componente raíz que renderiza el formulario principal:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```tsx
+import './App.css';
+import CustomForm from './CustomForm/CustomForm';
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+function App() {
+  return <CustomForm />;
+}
+
+export default App;
+2. CustomForm.tsx
+Define el formulario y la lógica de validación:
+
+Usa useForm de React Hook Form.
+
+Conecta el esquema de Zod usando zodResolver.
+
+Implementa validaciones al perder el foco (mode: "onBlur").
+
+tsx
+Copiar código
+const { control, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  resolver: zodResolver(schema),
+  mode: "onBlur",
+});
+
+const onSubmit: SubmitHandler<FormValues> = (data) => {
+  console.log(data);
+};
+Campos incluidos:
+
+Name
+
+Email
+
+Password
+
+Confirm Password
+
+3. InputForm (CustomInput.tsx)
+Componente reutilizable para cada campo del formulario.
+Utiliza Controller de React Hook Form para conectar los inputs al sistema de control de estado y validación.
+
+Incluye manejo de errores con mensajes personalizados:
+
+tsx
+Copiar código
+{error && <p className="error-message">{error.message}</p>}
+4. Validación con Zod (form.model.ts)
+Define el esquema del formulario y valida:
+
+Campos obligatorios.
+
+Formato de email.
+
+Contraseñas con mínimo de 6 caracteres.
+
+Coincidencia entre password y confirmPassword.
+
+ts
+Copiar código
+export const schema = z.object({
+  name: z.string().min(1, "El nombre es obligatorio"),
+  email: z.string().email("Correo inválido").min(1, "El correo es obligatorio"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+  confirmPassword: z.string().min(6, "La confirmación debe tener al menos 6 caracteres"),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
+});
+💡 Características principales
+✅ Validación inmediata con mensajes de error personalizados
+✅ Reutilización de componentes de entrada
+✅ Integración limpia entre React Hook Form y Zod
+✅ Arquitectura modular y escalable
+✅ Validación de contraseñas coincidentes
+
+⚙️ Instalación y ejecución
+Clona este repositorio:
+
+bash
+Copiar código
+git clone https://github.com/tu-usuario/nombre-del-repositorio.git
+Instala las dependencias:
+
+bash
+Copiar código
+npm install
+Inicia el servidor de desarrollo:
+
+bash
+Copiar código
+npm run dev
+Abre tu navegador en:
+
+arduino
+Copiar código
+http://localhost:5173
+🧰 Dependencias principales
+json
+Copiar código
+"dependencies": {
+  "react": "^18.x",
+  "react-dom": "^18.x",
+  "react-hook-form": "^7.x",
+  "@hookform/resolvers": "^3.x",
+  "zod": "^3.x"
+}
+🖼️ Captura de ejemplo
+(Puedes añadir aquí una imagen del formulario en ejecución)
+
+swift
+Copiar código
+📸 Ejemplo:
+[![Formulario React Hook Form + Zod](ruta/de/la/imagen.png)](ruta/de/la/imagen.png)
