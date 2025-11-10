@@ -17,16 +17,26 @@ Permite validar campos como nombre, correo electrónico, contraseña y confirmac
 ## 📂 Estructura del proyecto
 
 src/
+
 │
+
 ├── App.tsx
+
 ├── App.css
+
 │
+
 ├── CustomForm/
+
 │ ├── CustomForm.tsx
+
 │ └── components/
+
 │ └── CustomInput.tsx
+
 │
 └── models/
+
 └── form.model.ts
 
 yaml
