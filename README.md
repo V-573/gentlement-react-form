@@ -143,23 +143,10 @@ Copiar código
 npm run dev
 Abre tu navegador en:
 
-arduino
-Copiar código
-http://localhost:5173
-🧰 Dependencias principales
-json
-Copiar código
-"dependencies": {
-  "react": "^18.x",
-  "react-dom": "^18.x",
-  "react-hook-form": "^7.x",
-  "@hookform/resolvers": "^3.x",
-  "zod": "^3.x"
-}
-🖼️ Captura de ejemplo
-(Puedes añadir aquí una imagen del formulario en ejecución)
 
-swift
-Copiar código
-📸 Ejemplo:
-[![Formulario React Hook Form + Zod](ruta/de/la/imagen.png)](ruta/de/la/imagen.png)
+🖼️ Captura de ejemplo
+<img width="495" height="724" alt="fotoFormulario" src="https://github.com/user-attachments/assets/7e1e6f79-2995-460c-9ec1-3b4aa9ea649e" />
+
+
+
+
